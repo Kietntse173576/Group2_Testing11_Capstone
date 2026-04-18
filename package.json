@@ -4,7 +4,12 @@
   "main": "index.js",
   "scripts": {
      "test:authentication": "playwright test auth --project=chromium --headed",
-     "test:admin": "playwright test admin --project=chromium --headed"
+     "test:admin": "playwright test admin --project=chromium --headed",
+     "test:register": "playwright test register --project=chromium --headed",
+     "test:admin:user": "playwright test admin-user --project=chromium --headed",
+     "test:admin:location": "playwright test admin-location --project=chromium --headed",
+     "test:admin:all": "playwright test admin-user admin-location --project=chromium --headed --workers=1"
+
   },
   "keywords": [],
   "author": "",
