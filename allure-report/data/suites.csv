@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","8749","TC1: Truy cập trang quản lý room","chromium","2026-04-18","passed","2026-04-18","Admin - Quản lý Room","admin-room.spec.ts","",""
+"","24925","TC4: Xoá phòng thành công","chromium","2026-04-18","passed","2026-04-18","Admin - Quản lý Room","admin-room.spec.ts","",""
+"","27580","TC2: Thêm phòng mới thành công","chromium","2026-04-18","passed","2026-04-18","Admin - Quản lý Room","admin-room.spec.ts","",""
+"","24924","TC3: BUG - không có quyền cập nhật phòng","chromium","2026-04-18","passed","2026-04-18","Admin - Quản lý Room","admin-room.spec.ts","",""
