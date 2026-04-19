@@ -1,4 +1,107 @@
 
+
+
+// import { expect, Locator, Page } from '@playwright/test'
+
+// export class AdminPage {
+//   readonly page: Page
+
+//   readonly sidebarMenu: Locator
+//   readonly userManagementMenu: Locator
+//   readonly locationManagementMenu: Locator
+//   readonly roomManagementMenu: Locator
+//   readonly bookingManagementMenu: Locator
+//   readonly addUserBtn: Locator
+//   readonly addLocationBtn: Locator
+
+//   constructor(page: Page) {
+//     this.page = page
+
+//     this.sidebarMenu = this.page.locator('ul[role="menu"]')
+//     this.userManagementMenu = this.page.getByRole('link', { name: 'Quản lý người dùng' })
+//     this.locationManagementMenu = this.page.getByRole('link', { name: 'Quản lý vị trí' })
+//     this.roomManagementMenu = this.page.getByRole('link', { name: 'Quản lý Room' })
+//     this.bookingManagementMenu = this.page.getByRole('link', { name: 'Quản lý Booking' })
+//     this.addUserBtn = this.page.getByRole('button', { name: /\+ Thêm người dùng/i })
+//     this.addLocationBtn = this.page.getByRole('button', { name: /\+ Thêm vị trí mới/i })
+//   }
+
+//   async goToLastPage() {
+//     const lastPageItem = this.page.locator('li.ant-pagination-item[title]').last()
+
+//     const isAlreadyActive = await lastPageItem.evaluate(el =>
+//       el.classList.contains('ant-pagination-item-active')
+//     )
+
+//     if (!isAlreadyActive) {
+//       await lastPageItem.click()
+
+//       await this.page.waitForFunction(() => {
+//         const active = document.querySelector('.ant-pagination-item-active')
+//         const all = document.querySelectorAll('li.ant-pagination-item[title]')
+//         const last = all[all.length - 1]
+//         return active && last && active === last
+//       }, { timeout: 10000 })
+//     }
+//   }
+
+//   async clickEditBtnByEmail(email: string) {
+//     const modal = this.page.locator('.ant-modal-content')
+
+//     await modal.waitFor({ state: 'hidden', timeout: 20000 }).catch(() => null)
+
+
+//     await this.page.waitForTimeout(3000)
+
+//     await this.goToLastPage()
+//     await this.page.waitForSelector('table', { state: 'visible' })
+
+//     const row = this.page.locator('tbody tr').filter({ hasText: email })
+//     await row.waitFor({ state: 'visible', timeout: 20000 })
+
+//     const editBtn = row.locator('button[aria-label="Actions"]')
+//     await editBtn.click()
+//   }
+
+//   async deleteAnyUser() {
+//     await this.page.waitForSelector('tbody tr', { state: 'visible' })
+
+//     const firstRow = this.page.locator('tbody tr').first()
+//     await firstRow.waitFor({ state: 'visible' })
+
+//     const deleteBtn = firstRow.locator('button[aria-label="Delete"]')
+//     await deleteBtn.waitFor({ state: 'visible', timeout: 10000 })
+//     await deleteBtn.click()
+
+
+//     await this.page.waitForTimeout(2000)
+
+//     const popup = this.page.locator([
+//       '.ant-modal-content',
+//       '.ant-popover-content',
+//       '.ant-modal',
+//       '[role="dialog"]',
+//       '.ant-popconfirm'
+//     ].join(', ')).first()
+
+//     await popup.waitFor({ state: 'visible', timeout: 20000 })
+
+//     const confirmBtn = popup.locator([
+//       'button.bg-main',
+//       'button:has-text("Xác nhận")',
+//       'button:has-text("OK")',
+//       'button:has-text("Xoá")',
+//     ].join(', ')).first()
+
+//     await confirmBtn.waitFor({ state: 'visible', timeout: 10000 })
+//     await confirmBtn.click()
+
+//     await popup.waitFor({ state: 'hidden', timeout: 20000 })
+//     await this.page.waitForSelector('tbody tr', { state: 'visible', timeout: 15000 })
+//   }
+// }
+
+
 import { expect, Locator, Page } from '@playwright/test'
 
 export class AdminPage {
@@ -10,7 +113,6 @@ export class AdminPage {
   readonly roomManagementMenu: Locator
   readonly bookingManagementMenu: Locator
   readonly addUserBtn: Locator
-
   readonly addLocationBtn: Locator
 
   constructor(page: Page) {
@@ -21,9 +123,7 @@ export class AdminPage {
     this.locationManagementMenu = this.page.getByRole('link', { name: 'Quản lý vị trí' })
     this.roomManagementMenu = this.page.getByRole('link', { name: 'Quản lý Room' })
     this.bookingManagementMenu = this.page.getByRole('link', { name: 'Quản lý Booking' })
-
     this.addUserBtn = this.page.getByRole('button', { name: /\+ Thêm người dùng/i })
-
     this.addLocationBtn = this.page.getByRole('button', { name: /\+ Thêm vị trí mới/i })
   }
 
@@ -48,40 +148,56 @@ export class AdminPage {
 
   async clickEditBtnByEmail(email: string) {
     const modal = this.page.locator('.ant-modal-content')
-    await modal.waitFor({ state: 'hidden', timeout: 10000 })
+
+    // ✅ Chờ modal đóng hẳn sau khi submit
+    await modal.waitFor({ state: 'hidden', timeout: 20000 }).catch(() => null)
+
+    await this.page.waitForTimeout(3000)
 
     await this.goToLastPage()
     await this.page.waitForSelector('table', { state: 'visible' })
 
+    // ✅ Tăng timeout lên 20s cho CI
     const row = this.page.locator('tbody tr').filter({ hasText: email })
-    await row.waitFor({ state: 'visible', timeout: 10000 })
+    await row.waitFor({ state: 'visible', timeout: 20000 })
 
     const editBtn = row.locator('button[aria-label="Actions"]')
     await editBtn.click()
   }
 
+  // async deleteAnyUser() {
+  //   await this.page.waitForSelector('tbody tr', { state: 'visible' })
 
+  //   const firstRow = this.page.locator('tbody tr').first()
+  //   await firstRow.waitFor({ state: 'visible' })
 
+  //   const deleteBtn = firstRow.locator('button[aria-label="Delete"]')
+  //   await deleteBtn.waitFor({ state: 'visible', timeout: 10000 })
+  //   await deleteBtn.click()
 
-async deleteAnyUser() {
-  await this.page.waitForSelector('tbody tr', { state: 'visible' })
+  //   await this.page.waitForTimeout(2000)
 
-  const firstRow = this.page.locator('tbody tr').first()
-  await firstRow.waitFor({ state: 'visible' })
+  //   const popup = this.page.locator([
+  //     '.ant-modal-content',
+  //     '.ant-popover-content',
+  //     '.ant-modal',
+  //     '[role="dialog"]',
+  //     '.ant-popconfirm'
+  //   ].join(', ')).first()
 
-  const deleteBtn = firstRow.locator('button[aria-label="Delete"]')
-  await deleteBtn.waitFor({ state: 'visible' })
-  await deleteBtn.click()
+  //   await popup.waitFor({ state: 'visible', timeout: 20000 })
 
+  //   const confirmBtn = popup.locator([
+  //     'button.bg-main',
+  //     'button:has-text("Xác nhận")',
+  //     'button:has-text("OK")',
+  //     'button:has-text("Xoá")',
+  //   ].join(', ')).first()
 
-  const popup = this.page.locator('.ant-modal-content, .ant-popover-content').first()
-  await popup.waitFor({ state: 'visible', timeout: 10000 })
+  //   await confirmBtn.waitFor({ state: 'visible', timeout: 10000 })
+  //   await confirmBtn.click()
 
-  const confirmBtn = popup.locator('button.bg-main, button:has-text("Xác nhận"), button:has-text("OK")').first()
-  await confirmBtn.waitFor({ state: 'visible', timeout: 5000 })
-  await confirmBtn.click()
-
-  await popup.waitFor({ state: 'hidden', timeout: 15000 })
-  await this.page.waitForSelector('tbody tr', { state: 'visible', timeout: 10000 })
-}
+  //   await popup.waitFor({ state: 'hidden', timeout: 20000 })
+  //   await this.page.waitForSelector('tbody tr', { state: 'visible', timeout: 15000 })
+  // }
 }

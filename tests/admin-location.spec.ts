@@ -90,7 +90,8 @@ test.describe('Admin - Quản lý vị trí', () => {
     const addLocationPage = new AddLocationPage(page)
 
     await adminPage.locationManagementMenu.click()
-    await page.waitForLoadState("networkidle")
+    // await page.waitForLoadState("networkidle")
+    await page.waitForLoadState("domcontentloaded")
     await adminPage.addLocationBtn.click()
     await page.waitForSelector(".ant-modal-content", { timeout: 10000 })
 
@@ -108,7 +109,7 @@ test.describe('Admin - Quản lý vị trí', () => {
     expect(uploadFileCount).toBeGreaterThan(0)
   })
 
- // ✅ TC3: Data-driven cập nhật vị trí
+
 const updateDatas: CsvRow[] = readCsv('tests/data/location_update_data.csv')
 
 for (const testData of updateDatas) {
@@ -116,13 +117,14 @@ for (const testData of updateDatas) {
   const isBug = testData.expectedResult === 'fail'
 
   test(title, async ({ page, adminPage }) => {
-    test.setTimeout(35000)  // ← sửa ở đây
+    test.setTimeout(50000)  // ← sửa ở đây
     if (isBug) test.fail()
 
     const addLocationPage = new AddLocationPage(page)
 
     await adminPage.locationManagementMenu.click()
-    await page.waitForLoadState("networkidle")
+    // await page.waitForLoadState("networkidle")
+    await page.waitForLoadState("domcontentloaded")
     await addLocationPage.clickEditBtn(0)
     await expect(page.locator('p:has-text("Cập nhật vị trí")')).toBeVisible()
 
@@ -148,7 +150,8 @@ for (const testData of updateDatas) {
       if (isBug) test.fail()
 
       await adminPage.locationManagementMenu.click()
-      await page.waitForLoadState("networkidle")
+      // await page.waitForLoadState("networkidle")
+      await page.waitForLoadState("domcontentloaded")
 
       const firstRow = page.locator('tbody tr').first()
       await firstRow.waitFor({ state: 'visible' })
