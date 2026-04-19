@@ -116,8 +116,8 @@ test.describe('Admin - Quản lý Room', () => {
     const addRoomModal = new AddRoomModal(page)
 
     await adminPage.roomManagementMenu.click()
-    await page.waitForLoadState('networkidle')
-
+    // await page.waitForLoadState('networkidle')
+    await page.waitForLoadState("domcontentloaded")
     await page.locator('button:has-text("Thêm phòng mới")').click()
     await page.waitForSelector('.ant-modal-content', { timeout: 10000 })
     await expect(page.locator('p:has-text("Thêm phòng thuê")')).toBeVisible()
@@ -150,8 +150,9 @@ test.describe('Admin - Quản lý Room', () => {
       const addRoomModal = new AddRoomModal(page)
 
       await adminPage.roomManagementMenu.click()
-      await page.waitForLoadState('networkidle')
-
+      // await page.waitForLoadState('networkidle')
+      
+    await page.waitForLoadState("domcontentloaded")
       await addRoomModal.clickEditBtn(0)
       await expect(page.locator('p:has-text("Cập nhật phòng thuê")')).toBeVisible()
 

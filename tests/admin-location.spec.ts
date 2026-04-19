@@ -90,7 +90,8 @@ test.describe('Admin - Quản lý vị trí', () => {
     const addLocationPage = new AddLocationPage(page)
 
     await adminPage.locationManagementMenu.click()
-    await page.waitForLoadState("networkidle")
+    // await page.waitForLoadState("networkidle")
+    await page.waitForLoadState("domcontentloaded")
     await adminPage.addLocationBtn.click()
     await page.waitForSelector(".ant-modal-content", { timeout: 10000 })
 
@@ -122,7 +123,8 @@ for (const testData of updateDatas) {
     const addLocationPage = new AddLocationPage(page)
 
     await adminPage.locationManagementMenu.click()
-    await page.waitForLoadState("networkidle")
+    // await page.waitForLoadState("networkidle")
+    await page.waitForLoadState("domcontentloaded")
     await addLocationPage.clickEditBtn(0)
     await expect(page.locator('p:has-text("Cập nhật vị trí")')).toBeVisible()
 
@@ -148,7 +150,8 @@ for (const testData of updateDatas) {
       if (isBug) test.fail()
 
       await adminPage.locationManagementMenu.click()
-      await page.waitForLoadState("networkidle")
+      // await page.waitForLoadState("networkidle")
+      await page.waitForLoadState("domcontentloaded")
 
       const firstRow = page.locator('tbody tr').first()
       await firstRow.waitFor({ state: 'visible' })
