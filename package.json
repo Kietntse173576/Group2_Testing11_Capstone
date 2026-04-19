@@ -11,7 +11,10 @@
     "test:admin:room": "playwright test admin-room --project=chromium --headed",
     "test:admin:all": "playwright test admin-user admin-location --project=chromium --headed --workers=1",
     "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
-    "allure:open": "allure open ./allure-report"
+    "allure:open": "allure open ./allure-report",
+    "test:user": "playwright test tests/user.spec.ts --project=chromium --headed",
+    "test:user:avatar": "playwright test upload-avatar --project=chromium --headed",
+    "test:user:profile": "playwright test edit-profile --project=chromium --headed"
   },
   "keywords": [],
   "author": "",
