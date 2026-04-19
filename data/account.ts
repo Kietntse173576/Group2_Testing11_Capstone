@@ -4,3 +4,8 @@ export const adminAccount = {
     email: 'testing11@gmail.com',
     password: '123456'
 }
+
+export const userAccount = {
+    email: 'taodeptry123@gmail.com',
+    password: '123456'
+  }
