@@ -14,7 +14,9 @@
     "allure:open": "allure open ./allure-report",
     "test:user": "playwright test tests/user.spec.ts --project=chromium --headed",
     "test:user:avatar": "playwright test upload-avatar --project=chromium --headed",
-    "test:user:profile": "playwright test edit-profile --project=chromium --headed"
+    "test:user:profile": "playwright test edit-profile --project=chromium --headed",
+    "test:search": "playwright test search --project=chromium --headed",
+    "test:roomlisting": "playwright test room-listing --project=chromium --headed"
   },
   "keywords": [],
   "author": "",
