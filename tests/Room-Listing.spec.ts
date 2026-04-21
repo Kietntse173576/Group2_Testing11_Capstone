@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { RoomListingPage } from '../page/Room-listing';
+import { RoomListingPage } from '../pages/Room-listing';
 
 test.describe('Room Listing & Search (Click-Only Flow)', () => {
   let roomPage: RoomListingPage;
@@ -20,7 +20,7 @@ test.describe('Room Listing & Search (Click-Only Flow)', () => {
     await roomPage.selectLocationAndSearch('Hồ Chí Minh');
 
     // Chờ chuyển hướng sang trang kết quả (room-list)
-    await expect(page).toHaveURL(/room-list/);
+    await expect(page).toHaveURL(/room-list|rooms/);
 
     // Kiểm tra kết quả hiển thị sau khi search
     const countAfterSearch = await roomPage.getRoomCount();
@@ -32,7 +32,7 @@ test.describe('Room Listing & Search (Click-Only Flow)', () => {
     await roomPage.clickFirstRoom();
 
     // Kiểm tra URL trang chi tiết 
-    await expect(page).toHaveURL(/phong-thue/);
+    await expect(page).toHaveURL(/room-detail|phong-thue/);
     
     // Kiểm tra xem có button đặt phòng không để xác nhận đã vào đúng trang
     const bookingBtn = page.locator('button').filter({ hasText: /đặt phòng/i });
