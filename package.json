@@ -20,6 +20,9 @@
 "test:user:rating:tc2": "playwright test rating-comment --project=chromium --headed --grep \"TC2\"",
 "test:user:rating:tc3": "playwright test rating-comment --project=chromium --headed --grep \"TC3\"",
 "test:user:rating:tc4": "playwright test rating-comment --project=chromium --headed --grep \"TC4\""
+    "test:search": "playwright test search --project=chromium --headed",
+    "test:roomlisting": "playwright test room-listing --project=chromium --headed"
+
   },
   "keywords": [],
   "author": "",
