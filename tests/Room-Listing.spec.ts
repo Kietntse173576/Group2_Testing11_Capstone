@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { RoomListingPage } from '../pages/Room-listing';
 
-test.describe('Room Listing & Search (Click-Only Flow)', () => {
+test.describe('Danh sách phòng & tìm kiếm (luồng chỉ click)', () => {
   let roomPage: RoomListingPage;
 
   test.beforeEach(async ({ page }) => {
@@ -9,33 +9,46 @@ test.describe('Room Listing & Search (Click-Only Flow)', () => {
     await roomPage.goto();
   });
 
-  test('TC_01 - Should display at least 1 room on homepage', async () => {
+  test('TC_01 - Hiển thị ít nhất một phòng trên trang danh sách', async () => {
     const count = await roomPage.getRoomCount();
-    console.log(`Số lượng phòng hiện có: ${count}`);
     expect(count).toBeGreaterThan(0);
   });
 
-  test('TC_02 - Should search for a room by clicking "Hồ Chí Minh"', async ({ page }) => {
-    // Thực hiện chọn địa điểm bằng cách click
+  test('TC_02 - Tìm phòng khi chọn địa điểm "Hồ Chí Minh"', async ({ page }) => {
     await roomPage.selectLocationAndSearch('Hồ Chí Minh');
 
-    // Chờ chuyển hướng sang trang kết quả (room-list)
-    await expect(page).toHaveURL(/room-list|rooms/);
+    await expect(page).toHaveURL(/room-list|\/rooms\//);
 
-    // Kiểm tra kết quả hiển thị sau khi search
     const countAfterSearch = await roomPage.getRoomCount();
     expect(countAfterSearch).toBeGreaterThan(0);
   });
 
-  test('TC_03 - Should navigate to room detail when card is clicked', async ({ page }) => {
-    // Click vào card phòng đầu tiên
+  test('TC_03 - Chuyển sang trang chi tiết phòng khi bấm vào thẻ phòng', async ({ page }) => {
     await roomPage.clickFirstRoom();
 
-    // Kiểm tra URL trang chi tiết 
     await expect(page).toHaveURL(/room-detail|phong-thue/);
-    
-    // Kiểm tra xem có button đặt phòng không để xác nhận đã vào đúng trang
+
     const bookingBtn = page.locator('button').filter({ hasText: /đặt phòng/i });
     await expect(bookingBtn).toBeVisible();
   });
+
+  test('TC_04 - Thanh tìm kiếm và danh sách phòng hiển thị sau khi tải trang', async () => {
+    await expect(roomPage.searchBar).toBeVisible();
+    await expect(roomPage.roomCardsContainer).toBeVisible();
+  });
+
+  test('TC_05 - Hiện panel chọn địa điểm khi mở thanh tìm kiếm', async ({ page }) => {
+    await roomPage.openLocationPicker();
+    await expect(page.getByRole('heading', { name: 'Tìm kiếm địa điểm' })).toBeVisible();
+  });
+
+  test('TC_06 - Thẻ phòng đầu tiên hiển thị đúng', async () => {
+    await expect(roomPage.roomItems.first()).toBeVisible();
+  });
+
+  test('TC_07 - Quay lại trang chủ qua logo', async ({ page }) => {
+    await roomPage.goHomeViaLogo();
+    await expect(page).toHaveURL(/^https:\/\/demo5\.cybersoft\.edu\.vn\/?$/);
+  });
+  
 });
