@@ -15,8 +15,14 @@
     "test:user": "playwright test tests/user.spec.ts --project=chromium --headed",
     "test:user:avatar": "playwright test upload-avatar --project=chromium --headed",
     "test:user:profile": "playwright test edit-profile --project=chromium --headed",
+    "test:user:rating": "playwright test rating-comment --project=chromium --headed",
+    "test:user:rating:tc1": "playwright test rating-comment --project=chromium --headed --grep \"TC1\"",
+"test:user:rating:tc2": "playwright test rating-comment --project=chromium --headed --grep \"TC2\"",
+"test:user:rating:tc3": "playwright test rating-comment --project=chromium --headed --grep \"TC3\"",
+"test:user:rating:tc4": "playwright test rating-comment --project=chromium --headed --grep \"TC4\""
     "test:search": "playwright test search --project=chromium --headed",
     "test:roomlisting": "playwright test room-listing --project=chromium --headed"
+
   },
   "keywords": [],
   "author": "",
