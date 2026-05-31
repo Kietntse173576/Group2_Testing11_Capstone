@@ -33,7 +33,7 @@ export class InfoUserPage {
       has: page.locator('.ant-modal-title', { hasText: 'Chỉnh sửa hồ sơ' })
     })
 
- 
+  
     this.emailInput = this.editModal.locator('#email')
     this.nameInput = this.editModal.locator('#name')
     this.phoneInput = this.editModal.locator('#phone')
@@ -42,15 +42,26 @@ export class InfoUserPage {
   }
 
   async goToDashboard(): Promise<void> {
+    // Wait for page to load completely
+    await this.page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
+    
+    // Wait for the user menu button to be visible
     const avatarBtn = this.page.locator('#user-menu-button')
+    await avatarBtn.waitFor({ state: 'visible', timeout: 20000 })
+    
     await highlightStep(this.page, avatarBtn, 200)
     await avatarBtn.click()
 
+    // Wait for the dropdown menu to appear
+    await this.page.waitForTimeout(500)
+    
     const dashboardLink = this.page.locator('a[href="/info-user"]:has-text("Dashboard")')
+    await dashboardLink.waitFor({ state: 'visible', timeout: 15000 })
+    
     await highlightStep(this.page, dashboardLink, 200)
     await dashboardLink.click()
 
-    await this.page.waitForURL(/\/info-user/, { timeout: 10000 })
+    await this.page.waitForURL(/\/info-user/, { timeout: 15000 })
   }
 
   async uploadAvatar(fileName: string): Promise<void> {
