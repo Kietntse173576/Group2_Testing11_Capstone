@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { RoomListingPage } from '../page/Room-Listing';
+import { RoomListingPage } from '../pages/Room-Listing';
 
 test.describe('Room Listing & Search (Click-Only Flow)', () => {
   let roomPage: RoomListingPage;
